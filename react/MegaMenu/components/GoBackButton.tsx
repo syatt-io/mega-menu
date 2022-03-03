@@ -5,7 +5,6 @@ import React from 'react'
 import type { InjectedIntlProps } from 'react-intl'
 import { injectIntl } from 'react-intl'
 import { useCssHandles } from 'vtex.css-handles'
-
 import backarrow from '../../../assets/backarrow.svg'
 
 import { megaMenuState } from '../State'
