@@ -50,7 +50,6 @@ const Submenu: FC<ItemProps> = observer((props) => {
   >({})
 
   const [showBtnCat, setShowBtnCat] = useState(false)
-
   const seeAllLink = (to: string, level = 1, className?: string) => (
     <div
       className={classNames(
@@ -71,6 +70,29 @@ const Submenu: FC<ItemProps> = observer((props) => {
         }}
       >
         {formatIOMessage({ id: messages.seeAllTitle.id, intl })}
+      </Link>
+    </div>
+  )
+  const seeAllLinkMobile = (to: string, level = 1, className?: string, name?: string) => (
+    <div
+      className={classNames(
+        handles.seeAllLinkContainer,
+        !className && level === 1 && 'bb b--light-gray pv5 ph5 w-100',
+        !className && level > 1 && 'mt4 mb6 t-body',
+        className
+      )}
+    >
+      <Link
+        to={to}
+        className={classNames(
+          handles.seeAllLink,
+          'link underline fw7 c-on-base'
+        )}
+        onClick={() => {
+          if (closeMenu) closeMenu(false)
+        }}
+      >
+        All {name}
       </Link>
     </div>
   )
@@ -136,6 +158,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
               {orientation === 'horizontal' ? (
                 <>
                   <Item
+                    className="vtex-title-link"
                     to={category.slug}
                     iconId={category.icon}
                     level={2}
@@ -168,11 +191,11 @@ const Submenu: FC<ItemProps> = observer((props) => {
                   }
                   align="right"
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onClick={(e: any) =>
+                  onClick={subcategories.length > 1 ? (e: any) =>
                     setCollapsibleStates({
                       ...collapsibleStates,
                       [category.id]: e.target.isOpen,
-                    })
+                    }) : null
                   }
                   isOpen={collapsibleStates[category.id]}
                   caretColor={`${
@@ -199,7 +222,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [departmentActive, collapsibleStates]
   )
-
+  
   return (
     <>
       {departmentActive && (
@@ -212,11 +235,13 @@ const Submenu: FC<ItemProps> = observer((props) => {
               orientation === 'vertical' && 'pv5 ph5'
             )}
           >
-            {departmentActive.name}
             {orientation === 'horizontal' && showBtnCat ? (
               seeAllLink(departmentActive.slug, 1, 't-small ml7')
             ) : (
-              <div />
+              <>
+                {departmentActive && seeAllLinkMobile(departmentActive.slug, 1, 't-small ml7', departmentActive.name)} 
+                <div />
+              </>
             )}
           </h3>
 
@@ -234,7 +259,6 @@ const Submenu: FC<ItemProps> = observer((props) => {
             ) : (
               <>
                 {items}
-                {showBtnCat ? seeAllLink(departmentActive.slug) : <div />}
               </>
             )}
           </div>
