@@ -21,7 +21,14 @@
 .styledLink,
 .goBackButton,
 .triggerContainer {
+  font-weight: bold;
   border: none;
   background: transparent;
   outline: transparent;
+}
+
+.triggerContainer {
+  color: var(--text-white);
+  font-size: 12px;
+  font-family: 'Poppins';
 }
