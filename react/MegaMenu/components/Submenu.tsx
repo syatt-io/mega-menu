@@ -135,6 +135,9 @@ const Submenu: FC<ItemProps> = observer((props) => {
       return categories
         .filter((j) => j.display)
         .map((category, i) => {
+          if(!category.menu?.length) {
+            return
+          }
           const subcategories = category.menu?.length
             ? subCategories(category.menu)
             : []
@@ -222,6 +225,66 @@ const Submenu: FC<ItemProps> = observer((props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [departmentActive, collapsibleStates]
   )
+
+  const itemsWithNoSubCategories = useMemo(
+    () => {
+      if (!departmentActive) return
+
+      if (departmentActive.menu) {
+        if (departmentActive.menu.length > 1) {
+          setShowBtnCat(true)
+        } else {
+          setShowBtnCat(false)
+        }
+      } else {
+        setShowBtnCat(false)
+      }
+
+      const categories = getCategories()
+
+      return categories
+        .filter((j) => j.display)
+        .map((category, i) => {
+          if(category.menu?.length) {
+            return
+          }
+          return (
+            <div
+              key={category.id}
+              className={classNames(
+                applyModifiers(
+                  orientation === 'horizontal'
+                    ? styles.submenuItem
+                    : handles.submenuItemVertical,
+                  collapsibleStates[category.id] ? 'isOpen' : 'isClosed'
+                ),
+                orientation === 'vertical' &&
+                  'c-on-base bb b--light-gray mv0 ph5',
+                orientation === 'vertical' && i === 0 && 'bt',
+                collapsibleStates[category.id] && 'bg-near-white'
+              )}
+            >
+                <>
+                  <Item
+                    className="vtex-title-link"
+                    to={category.slug}
+                    iconId={category.icon}
+                    level={2}
+                    style={category.styles}
+                    isTitle
+                    enableStyle={category.enableSty}
+                    closeMenu={closeMenu}
+                  >
+                    {category.name}
+                  </Item>
+                </>
+            </div>
+          )
+        })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [departmentActive, collapsibleStates]
+  )
   
   return (
     <>
@@ -244,7 +307,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
               </>
             )}
           </h3>
-
+          <div className='syatt-mega-menu-3-x-categories-container'>
           <div
             className={classNames(
               orientation === 'horizontal' && styles.submenuList,
@@ -253,7 +316,8 @@ const Submenu: FC<ItemProps> = observer((props) => {
           >
             {orientation === 'horizontal' ? (
               <>
-                <ExtensionPoint id="before-menu" /> {items}{' '}
+                <ExtensionPoint id="before-menu" /> 
+                {items}
                 <ExtensionPoint id="after-menu" />
               </>
             ) : (
@@ -261,6 +325,10 @@ const Submenu: FC<ItemProps> = observer((props) => {
                 {items}
               </>
             )}
+          </div>
+          <div className='syatt-mega-menu-3-x-sub-catergories--no-sub'>
+            {itemsWithNoSubCategories}
+          </div>
           </div>
         </>
       )}
