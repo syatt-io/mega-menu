@@ -9,7 +9,8 @@ import { formatIOMessage } from 'vtex.native-types'
 
 import FirsLevelContainer from './Category/FirstLevelContainer'
 import SecondLevelContainer from './Category/SecondLevelContainer'
-import ThirdLevelContainer from './Category/ThirdLevelContainer'
+//! WITI-346 - removed third level per client request, but keeping code for future use
+// import ThirdLevelContainer from './Category/ThirdLevelContainer'
 import CategoryContainer from './Category/CategoryContainer'
 import GET_MENUS from './graphql/queries/getMenus.graphql'
 import { DataMenuProvider } from './shared'
@@ -151,7 +152,9 @@ const ConfigMenuContainer: FC<InjectedIntlProps> = ({ intl }) => {
             >
               <SecondLevelContainer />
             </Tab>
-            <Tab
+            {/* WITI-346 - removed third level per client request, but keeping
+            code for future use */}
+            {/* <Tab
               label={formatIOMessage({ id: messages.thirdLevelTab.id, intl })}
               active={currentTab === 3}
               onClick={() => {
@@ -160,7 +163,7 @@ const ConfigMenuContainer: FC<InjectedIntlProps> = ({ intl }) => {
               }}
             >
               <ThirdLevelContainer />
-            </Tab>
+            </Tab> */}
           </Tabs>
         </Layout>
       </DataMenuProvider>

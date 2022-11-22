@@ -107,11 +107,12 @@ const Item: FC<ItemProps> = observer((props) => {
     <div
       className={classNames(handles.styledLinkContent, 'flex justify-between')}
     >
-      
       <div
         className={classNames(
           handles.styledLinkText,
-          `flex justify-between items-center ${departmentActive ? 'vtex-active-link' : null}`,
+          `flex justify-between items-center f7 ${
+            departmentActive ? 'vtex-active-link' : null
+          }`,
           iconPosition === 'left' && iconComponent && 'nowrap'
         )}
         {...(enableStyle && { style: stylesItem })}

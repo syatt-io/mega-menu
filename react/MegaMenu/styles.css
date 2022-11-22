@@ -10,12 +10,12 @@
 
 .submenuList {
   display: grid;
-  gap: 2rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 .submenuList > .submenuItem {
-  max-width: 200px;
+  max-width: 240px;
 }
 
 .styledLink,
@@ -31,4 +31,15 @@
   color: var(--text-white);
   font-size: 12px;
   font-family: 'Poppins';
+}
+
+.seeAllLink {
+  color: var(--star-blue);
+  font-family: 'Poppins';
+}
+
+.seeAllLink > svg {
+  stroke: white;
+  stroke-width: 1px;
+  margin-left: 8px;
 }

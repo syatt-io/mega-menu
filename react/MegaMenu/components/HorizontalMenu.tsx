@@ -102,7 +102,10 @@ const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
                 to={d.slug}
                 iconId={d.icon}
                 accordion={hasCategories}
-                className={classNames('pv3 mh5', d.id === departmentActive?.id && 'vtex-active-menu-link')}
+                className={classNames(
+                  'pv3 mh5',
+                  d.id === departmentActive?.id && 'vtex-active-menu-link'
+                )}
                 style={d.styles}
                 enableStyle={d.enableSty}
                 closeMenu={openMenu}
@@ -145,7 +148,7 @@ const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
           'list ma0 pa0 pb3 br b--muted-4'
         )}
       >
-        <h3 className="f4 fw7 c-on-base lh-copy ma0 pv5 ph5 vtex-mege-menu-header">
+        <h3 className="f5 fw7 c-on-base lh-copy ma0 pv5 ph5 vtex-mege-menu-header">
           {formatIOMessage({ id: title, intl })}
         </h3>
         {departments.length ? (
