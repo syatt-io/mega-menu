@@ -9,8 +9,10 @@ import { applyModifiers, useCssHandles } from 'vtex.css-handles'
 import { formatIOMessage } from 'vtex.native-types'
 import { ExtensionPoint, Link } from 'vtex.render-runtime'
 import { Collapsible } from 'vtex.styleguide'
+import { IconCaret } from 'vtex.store-icons'
 
-import type { MenuItem } from '../../shared'
+//! WITI-346 - removed third level per client request, but keeping code for future use
+// import type { MenuItem } from '../../shared'
 import { megaMenuState } from '../State'
 import styles from '../styles.css'
 import Item from './Item'
@@ -50,7 +52,12 @@ const Submenu: FC<ItemProps> = observer((props) => {
   >({})
 
   const [showBtnCat, setShowBtnCat] = useState(false)
-  const seeAllLink = (to: string, level = 1, className?: string) => (
+  const seeAllLink = (
+    to: string,
+    level = 1,
+    className?: string,
+    departmentName?: string
+  ) => (
     <div
       className={classNames(
         handles.seeAllLinkContainer,
@@ -63,17 +70,25 @@ const Submenu: FC<ItemProps> = observer((props) => {
         to={to}
         className={classNames(
           handles.seeAllLink,
-          'link underline fw7 c-on-base'
+          styles.seeAllLink,
+          'link no-underline fw6 f6 flex items-center'
         )}
         onClick={() => {
           if (closeMenu) closeMenu(false)
         }}
       >
-        {formatIOMessage({ id: messages.seeAllTitle.id, intl })}
+        {formatIOMessage({ id: messages.seeAllTitle.id, intl })}{' '}
+        {departmentName} <IconCaret orientation="right" size={14} />
       </Link>
     </div>
   )
-  const seeAllLinkMobile = (to: string, level = 1, className?: string, name?: string) => (
+
+  const seeAllLinkMobile = (
+    to: string,
+    level = 1,
+    className?: string,
+    name?: string
+  ) => (
     <div
       className={classNames(
         handles.seeAllLinkContainer,
@@ -97,24 +112,25 @@ const Submenu: FC<ItemProps> = observer((props) => {
     </div>
   )
 
-  const subCategories = (items: MenuItem[]) => {
-    return items
-      .filter((v) => v.display)
-      .map((x) => (
-        <div key={x.id} className={classNames(handles.submenuItem, 'mt3')}>
-          <Item
-            to={x.slug}
-            iconId={x.icon}
-            level={3}
-            style={x.styles}
-            enableStyle={x.enableSty}
-            closeMenu={closeMenu}
-          >
-            {x.name}
-          </Item>
-        </div>
-      ))
-  }
+  //! WITI-346 - removed third level per client request, but keeping code for future use
+  // const subCategories = (items: MenuItem[]) => {
+  //   return items
+  //     .filter((v) => v.display)
+  //     .map((x) => (
+  //       <div key={x.id} className={classNames(handles.submenuItem, 'mt3')}>
+  //         <Item
+  //           to={x.slug}
+  //           iconId={x.icon}
+  //           level={3}
+  //           style={x.styles}
+  //           enableStyle={x.enableSty}
+  //           closeMenu={closeMenu}
+  //         >
+  //           {x.name}
+  //         </Item>
+  //       </div>
+  //     ))
+  // }
 
   const items = useMemo(
     () => {
@@ -135,9 +151,11 @@ const Submenu: FC<ItemProps> = observer((props) => {
       return categories
         .filter((j) => j.display)
         .map((category, i) => {
-          const subcategories = category.menu?.length
-            ? subCategories(category.menu)
-            : []
+          const subcategories = []
+          //! WITI-346 - removed third level per client request, but keeping code for future use
+          // const subcategories = category.menu?.length
+          //   ? subCategories(category.menu)
+          //   : []
 
           return (
             <div
@@ -191,11 +209,14 @@ const Submenu: FC<ItemProps> = observer((props) => {
                   }
                   align="right"
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onClick={subcategories.length > 1 ? (e: any) =>
-                    setCollapsibleStates({
-                      ...collapsibleStates,
-                      [category.id]: e.target.isOpen,
-                    }) : null
+                  onClick={
+                    subcategories.length > 1
+                      ? (e: any) =>
+                          setCollapsibleStates({
+                            ...collapsibleStates,
+                            [category.id]: e.target.isOpen,
+                          })
+                      : null
                   }
                   isOpen={collapsibleStates[category.id]}
                   caretColor={`${
@@ -222,7 +243,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [departmentActive, collapsibleStates]
   )
-  
+
   return (
     <>
       {departmentActive && (
@@ -236,10 +257,21 @@ const Submenu: FC<ItemProps> = observer((props) => {
             )}
           >
             {orientation === 'horizontal' && showBtnCat ? (
-              seeAllLink(departmentActive.slug, 1, 't-small ml7')
+              seeAllLink(
+                departmentActive.slug,
+                1,
+                't-small ml7',
+                departmentActive.name
+              )
             ) : (
               <>
-                {departmentActive && seeAllLinkMobile(departmentActive.slug, 1, 't-small ml7', departmentActive.name)} 
+                {departmentActive &&
+                  seeAllLinkMobile(
+                    departmentActive.slug,
+                    1,
+                    't-small ml7',
+                    departmentActive.name
+                  )}
                 <div />
               </>
             )}
@@ -257,9 +289,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
                 <ExtensionPoint id="after-menu" />
               </>
             ) : (
-              <>
-                {items}
-              </>
+              <>{items}</>
             )}
           </div>
         </>
