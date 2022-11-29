@@ -3,17 +3,9 @@
 
 ## [Unreleased]
 
-## [3.0.1] - 2022-05-12
+## [3.1.0] - 2022-11-28
 
-## [2.7.0] - 2022-04-01
-
-## [2.6.0] - 2022-04-01
-
-## [2.4.2] - 2022-02-01
-
-## [2.4.0] - 2022-01-25
-
-## [2.3.0] - 2022-01-19
+- WITI-346 - Updated the app to have a max of 2 levels. Commented out 3rd level logic for now.
 
 ### Added
 - Added link to category 
