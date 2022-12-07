@@ -57,6 +57,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     level = 1,
     className?: string,
     departmentName?: string
+    // eslint-disable-next-line max-params
   ) => (
     <div
       className={classNames(
@@ -88,6 +89,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     level = 1,
     className?: string,
     name?: string
+    // eslint-disable-next-line max-params
   ) => (
     <div
       className={classNames(
@@ -176,7 +178,10 @@ const Submenu: FC<ItemProps> = observer((props) => {
               {orientation === 'horizontal' ? (
                 <>
                   <Item
-                    className="vtex-title-link"
+                    className={classNames(
+                      'vtex-title-link',
+                      styles['title-link']
+                    )}
                     to={category.slug}
                     iconId={category.icon}
                     level={2}
@@ -208,10 +213,10 @@ const Submenu: FC<ItemProps> = observer((props) => {
                     </p>
                   }
                   align="right"
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onClick={
                     subcategories.length > 1
-                      ? (e: any) =>
+                      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (e: any) =>
                           setCollapsibleStates({
                             ...collapsibleStates,
                             [category.id]: e.target.isOpen,

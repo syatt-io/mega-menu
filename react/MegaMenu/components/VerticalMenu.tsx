@@ -7,8 +7,6 @@ import { injectIntl } from 'react-intl'
 import Skeleton from 'react-loading-skeleton'
 import { useCssHandles } from 'vtex.css-handles'
 
-
-
 import { megaMenuState } from '../State'
 import type { ItemProps } from './Item'
 import Item from './Item'
@@ -20,17 +18,14 @@ const CSS_HANDLES = [
   'menuContainerNavVertical',
   'menuItemVertical',
   'submenuContainerVertical',
-  'departmentsTitle'
+  'departmentsTitle',
 ] as const
 
 const VerticalMenu: FC<VerticalMenuProps> = observer(() => {
   const { handles } = useCssHandles(CSS_HANDLES)
-  const { departments, departmentActive, setDepartmentActive } =
-    megaMenuState
+  const { departments, departmentActive, setDepartmentActive } = megaMenuState
 
   const departmentActiveHasCategories = !!departmentActive?.menu?.length
-
-  
 
   const departmentItems = useMemo(
     () =>
