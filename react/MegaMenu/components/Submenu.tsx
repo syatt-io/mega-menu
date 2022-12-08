@@ -5,10 +5,14 @@ import type { FC } from 'react'
 import React, { useMemo, useState } from 'react'
 import type { InjectedIntlProps } from 'react-intl'
 import { defineMessages, injectIntl } from 'react-intl'
-import { applyModifiers, useCssHandles } from 'vtex.css-handles'
+import {
+  //! WITI-346 - removed third level per client request, but keeping code for future use
+  // applyModifiers
+  useCssHandles,
+} from 'vtex.css-handles'
 import { formatIOMessage } from 'vtex.native-types'
 import { ExtensionPoint, Link } from 'vtex.render-runtime'
-import { Collapsible } from 'vtex.styleguide'
+// import { Collapsible } from 'vtex.styleguide'
 import { IconCaret } from 'vtex.store-icons'
 
 //! WITI-346 - removed third level per client request, but keeping code for future use
@@ -27,6 +31,7 @@ const CSS_HANDLES = [
   'collapsibleHeaderText',
   'seeAllLinkContainer',
   'seeAllLink',
+  'seeAllLinkMobile',
   'submenuContainerTitle',
 ] as const
 
@@ -47,9 +52,10 @@ const Submenu: FC<ItemProps> = observer((props) => {
   const { departmentActive, config, getCategories } = megaMenuState
   const { orientation } = config
 
-  const [collapsibleStates, setCollapsibleStates] = useState<
-    Record<string, boolean>
-  >({})
+  //! WITI-346 - removed third level per client request, but keeping code for future use
+  // const [collapsibleStates, setCollapsibleStates] = useState<
+  // Record<string, boolean>
+  // >({})
 
   const [showBtnCat, setShowBtnCat] = useState(false)
   const seeAllLink = (
@@ -94,6 +100,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     <div
       className={classNames(
         handles.seeAllLinkContainer,
+        'vtex-title-link',
         !className && level === 1 && 'bb b--light-gray pv5 ph5 w-100',
         !className && level > 1 && 'mt4 mb6 t-body',
         className
@@ -101,10 +108,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
     >
       <Link
         to={to}
-        className={classNames(
-          handles.seeAllLink,
-          'link underline fw7 c-on-base'
-        )}
+        className={classNames(handles.seeAllLinkMobile, 'fw7 c-on-base')}
         onClick={() => {
           if (closeMenu) closeMenu(false)
         }}
@@ -163,25 +167,23 @@ const Submenu: FC<ItemProps> = observer((props) => {
             <div
               key={category.id}
               className={classNames(
-                applyModifiers(
-                  orientation === 'horizontal'
-                    ? styles.submenuItem
-                    : handles.submenuItemVertical,
-                  collapsibleStates[category.id] ? 'isOpen' : 'isClosed'
-                ),
+                //! WITI-346 - removed third level per client request, but keeping code for future use
+                // applyModifiers(
+                orientation === 'horizontal'
+                  ? styles.submenuItem
+                  : handles.submenuItemVertical,
+                // collapsibleStates[category.id] ? 'isOpen' : 'isClosed'
+                // ),
                 orientation === 'vertical' &&
-                  'c-on-base bb b--light-gray mv0 ph5',
-                orientation === 'vertical' && i === 0 && 'bt',
-                collapsibleStates[category.id] && 'bg-near-white'
+                  'c-on-base pv5 bb b--light-gray mv0 h-large',
+                orientation === 'vertical' && i === 0 && 'bt'
+                // collapsibleStates[category.id] && 'bg-near-white'
               )}
             >
               {orientation === 'horizontal' ? (
                 <>
                   <Item
-                    className={classNames(
-                      'vtex-title-link',
-                      styles['title-link']
-                    )}
+                    className={classNames(styles['item-link'])}
                     to={category.slug}
                     iconId={category.icon}
                     level={2}
@@ -189,10 +191,10 @@ const Submenu: FC<ItemProps> = observer((props) => {
                     isTitle
                     enableStyle={category.enableSty}
                     closeMenu={closeMenu}
+                    horizontalMenu
                   >
                     {category.name}
                   </Item>
-
                   {!!subcategories.length && subcategories}
                   {subcategories.length > 1 ? (
                     seeAllLink(category.slug, 2)
@@ -201,52 +203,82 @@ const Submenu: FC<ItemProps> = observer((props) => {
                   )}
                 </>
               ) : (
-                <Collapsible
-                  header={
-                    <p
-                      className={classNames(
-                        handles.collapsibleHeaderText,
-                        collapsibleStates[category.id] && 'fw7'
-                      )}
-                    >
-                      {category.name}
-                    </p>
-                  }
-                  align="right"
-                  onClick={
-                    subcategories.length > 1
-                      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (e: any) =>
-                          setCollapsibleStates({
-                            ...collapsibleStates,
-                            [category.id]: e.target.isOpen,
-                          })
-                      : null
-                  }
-                  isOpen={collapsibleStates[category.id]}
-                  caretColor={`${
-                    collapsibleStates[category.id] ? 'base' : 'muted'
-                  }`}
-                >
-                  {!!subcategories.length && (
-                    <div className={handles.collapsibleContent}>
-                      {subcategories}
-                    </div>
-                  )}
-
+                <>
+                  <Item
+                    className={classNames(
+                      'vtex-title-link',
+                      'ml5 lh-copy'
+                      //! WITI-346 - removed third level per client request, but keeping code for future use
+                      // styles['title-link']
+                    )}
+                    to={category.slug}
+                    iconId={category.icon}
+                    level={2}
+                    style={category.styles}
+                    isTitle
+                    enableStyle={category.enableSty}
+                    closeMenu={closeMenu}
+                    showArrow
+                  >
+                    {category.name}
+                  </Item>
+                  {!!subcategories.length && subcategories}
                   {subcategories.length > 1 ? (
                     seeAllLink(category.slug, 2)
                   ) : (
                     <div />
                   )}
-                </Collapsible>
+                </>
+                //! WITI-346 - removed third level per client request, but keeping code for future use
+                // <Collapsible
+                //   header={
+                //     <p
+                //       className={classNames(
+                //         handles.collapsibleHeaderText,
+                //         collapsibleStates[category.id] && 'fw7'
+                //       )}
+                //     >
+                //       {category.name}
+                //     </p>
+                //   }
+                //   align="right"
+                //   onClick={
+                //     subcategories.length > 1
+                //       ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                //         (e: any) =>
+                //           setCollapsibleStates({
+                //             ...collapsibleStates,
+                //             [category.id]: e.target.isOpen,
+                //           })
+                //       : null
+                //   }
+                //   isOpen={collapsibleStates[category.id]}
+                //   caretColor={`${
+                //     collapsibleStates[category.id] ? 'base' : 'muted'
+                //   }`}
+                // >
+                //   {!!subcategories.length && (
+                //     <div className={handles.collapsibleContent}>
+                //       {subcategories}
+                //     </div>
+                //   )}
+                //   {subcategories.length > 1 ? (
+                //     seeAllLink(category.slug, 2)
+                //   ) : (
+                //     <div />
+                //   )}
+                // </Collapsible>
               )}
             </div>
           )
         })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [departmentActive, collapsibleStates]
+    [
+      departmentActive,
+      //! WITI-346 - removed third level per client request, but keeping code for future use
+      // collapsibleStates
+    ]
   )
 
   return (
@@ -256,9 +288,11 @@ const Submenu: FC<ItemProps> = observer((props) => {
           <h3
             className={classNames(
               handles.submenuContainerTitle,
-              'f4 fw7 c-on-base lh-copy ma0 flex items-center',
-              orientation === 'horizontal' && 'mb6',
-              orientation === 'vertical' && 'pv5 ph5'
+              orientation === 'horizontal'
+                ? 'f4 fw7 c-on-base ma0 flex items-center'
+                : 'f7 c-on-base ma0 lh-copy pv5 ph5 h-large',
+              orientation === 'horizontal' && 'mb6'
+              // orientation === 'vertical' && '',
             )}
           >
             {orientation === 'horizontal' && showBtnCat ? (
@@ -274,7 +308,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
                   seeAllLinkMobile(
                     departmentActive.slug,
                     1,
-                    't-small ml7',
+                    'ml7',
                     departmentActive.name
                   )}
                 <div />
@@ -290,7 +324,7 @@ const Submenu: FC<ItemProps> = observer((props) => {
           >
             {orientation === 'horizontal' ? (
               <>
-                <ExtensionPoint id="before-menu" /> {items}{' '}
+                <ExtensionPoint id="before-menu" /> {items}
                 <ExtensionPoint id="after-menu" />
               </>
             ) : (

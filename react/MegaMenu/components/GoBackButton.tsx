@@ -8,6 +8,7 @@ import { useCssHandles } from 'vtex.css-handles'
 
 import backarrow from '../../../assets/backarrow.svg'
 import { megaMenuState } from '../State'
+import styles from './GoBackButton.css'
 
 const CSS_HANDLES = [
   'goBackContainer',
@@ -31,10 +32,14 @@ const GoBackButton: FC<InjectedIntlProps> = observer(() => {
   return orientation === 'vertical' && departmentActive ? (
     <div className={handles.goBackContainer}>
       <button
-        className={classNames(handles.goBackButton, 'flex items-center')}
+        className={classNames(
+          handles.goBackButton,
+          'flex items-center justify-center ',
+          styles['go-back-button']
+        )}
         onClick={goBack}
       >
-        <div className="vtex-drawer-icon">
+        <div className={`vtex-drawer-icon ${styles['drawer-icon']}`}>
           <img src={backarrow} alt="backarrow" />
         </div>
         <span className={classNames(handles.goBackButtonText, 'ml3')}>

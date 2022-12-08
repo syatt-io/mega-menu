@@ -1,6 +1,6 @@
 .menuContainer,
 .submenuContainer {
-  max-height: 50vh;
+  max-height: calc(75vh - 100px);
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -39,7 +39,11 @@
 }
 
 .seeAllLink {
-  color: var(--star-blue);
+  color: var(--star-blue-secondary);
+  font-family: 'Poppins';
+}
+
+.seeAllLink--mobile {
   font-family: 'Poppins';
 }
 
@@ -51,6 +55,11 @@
 
 .menu-item {
   margin-right: 15px;
+}
+
+.menu-item__arrow {
+  font-size: 10px;
+  transform: scaleX(0.8);
 }
 
 .active-menu {
@@ -76,7 +85,11 @@
   margin-top: -3px;
 }
 
-.title-link {
+.item-link {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #dce2e5;
+}
+
+.item-link a {
+  color: var(--star-blue-secondary);
 }
