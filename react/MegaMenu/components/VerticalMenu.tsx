@@ -7,12 +7,11 @@ import { injectIntl } from 'react-intl'
 import Skeleton from 'react-loading-skeleton'
 import { useCssHandles } from 'vtex.css-handles'
 
-
-
 import { megaMenuState } from '../State'
 import type { ItemProps } from './Item'
 import Item from './Item'
 import Submenu from './Submenu'
+import styles from '../styles.css'
 
 const CSS_HANDLES = [
   'menuContainerVertical',
@@ -20,17 +19,14 @@ const CSS_HANDLES = [
   'menuContainerNavVertical',
   'menuItemVertical',
   'submenuContainerVertical',
-  'departmentsTitle'
+  'departmentsTitle',
 ] as const
 
 const VerticalMenu: FC<VerticalMenuProps> = observer(() => {
   const { handles } = useCssHandles(CSS_HANDLES)
-  const { departments, departmentActive, setDepartmentActive } =
-    megaMenuState
+  const { departments, departmentActive, setDepartmentActive } = megaMenuState
 
   const departmentActiveHasCategories = !!departmentActive?.menu?.length
-
-  
 
   const departmentItems = useMemo(
     () =>
@@ -63,9 +59,12 @@ const VerticalMenu: FC<VerticalMenuProps> = observer(() => {
             )}
             key={d.id}
           >
-            <Item className={classNames('pv5 mh5')} {...itemProps}>
-              {d.name}
-            </Item>
+            <div className="flex items-center justify-between lh-copy h-large">
+              <Item className={classNames('pv5 mh5')} {...itemProps}>
+                {d.name}
+              </Item>
+              <span className={`mh5 ${styles['menu-item__arrow']}`}>▶</span>
+            </div>
           </li>
         )
       }),
@@ -83,7 +82,7 @@ const VerticalMenu: FC<VerticalMenuProps> = observer(() => {
         <h3
           className={classNames(
             handles.departmentsTitle,
-            'f4 fw7 c-on-base mv5 lh-copy ph5'
+            'f4 fw7 c-on-base mv5 lh-copy ph5 '
           )}
         >
           Products
@@ -92,7 +91,7 @@ const VerticalMenu: FC<VerticalMenuProps> = observer(() => {
           {departments.length ? (
             departmentItems
           ) : (
-            <div className="flex flex-column justify-center ph5 lh-copy">
+            <div className="flex flex-column justify-center ph5 lh-copy ">
               <Skeleton count={4} height={40} />
             </div>
           )}

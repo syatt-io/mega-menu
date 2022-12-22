@@ -8,6 +8,7 @@ import { Icon, IconCaret } from 'vtex.store-icons'
 
 import type { IconProps } from '../../shared'
 import { megaMenuState } from '../State'
+import styles from '../styles.css'
 
 const CSS_HANDLES = [
   'styledLink',
@@ -46,6 +47,8 @@ const Item: FC<ItemProps> = observer((props) => {
     style,
     enableStyle,
     closeMenu,
+    showArrow,
+    horizontalMenu = false,
     ...rest
   } = props
 
@@ -110,17 +113,21 @@ const Item: FC<ItemProps> = observer((props) => {
       <div
         className={classNames(
           handles.styledLinkText,
-          `flex justify-between items-center f7 ${
+          `flex justify-between items-center  ${
             departmentActive ? 'vtex-active-link' : null
           }`,
+          horizontalMenu ? 'f7 fw5' : 'f6 fw6',
+          horizontalMenu ? 'f7 fw5' : 'f6 fw6',
           iconPosition === 'left' && iconComponent && 'nowrap'
         )}
         {...(enableStyle && { style: stylesItem })}
       >
         {iconPosition === 'left' && iconComponent}
-        {children}
-        {iconPosition === 'right' && iconComponent}
+        {children} {iconPosition === 'right' && iconComponent}
       </div>
+      {showArrow && !accordion && (
+        <span className={`mh5 ${styles['menu-item__arrow']}`}>▶</span>
+      )}
       {accordion && (
         <div
           className={`${withModifiers(
@@ -183,6 +190,8 @@ export interface ItemProps {
   enableStyle?: boolean
   onClick?: () => void
   closeMenu?: (open: boolean) => void
+  showArrow?: boolean
+  horizontalMenu?: boolean
 }
 
 export default Item

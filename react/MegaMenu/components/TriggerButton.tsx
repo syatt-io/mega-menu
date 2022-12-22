@@ -3,21 +3,14 @@ import { observer } from 'mobx-react-lite'
 import type { FC } from 'react'
 import React from 'react'
 
-
-
 import type { IconProps } from '../../shared'
 import { megaMenuState } from '../State'
 import styles from '../styles.css'
 
-
 export const BUTTON_ID = 'mega-menu-trigger-button'
 
 const TriggerButton: FC<TriggerButtonProps> = observer(() => {
-
   const { openMenu } = megaMenuState
-
-
-  
 
   return (
     <button
@@ -25,9 +18,7 @@ const TriggerButton: FC<TriggerButtonProps> = observer(() => {
       className={classNames(styles.triggerContainer, 'pointer')}
       onMouseEnter={() => openMenu((v) => !v)}
     >
-      <div>
-        PRODUCTS
-      </div>
+      <div>PRODUCTS</div>
     </button>
   )
 })

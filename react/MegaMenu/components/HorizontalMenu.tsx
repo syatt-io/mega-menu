@@ -6,7 +6,6 @@ import type { InjectedIntlProps } from 'react-intl'
 import { injectIntl } from 'react-intl'
 import Skeleton from 'react-loading-skeleton'
 import { useCssHandles } from 'vtex.css-handles'
-import { formatIOMessage } from 'vtex.native-types'
 
 import { megaMenuState } from '../State'
 import styles from '../styles.css'
@@ -21,13 +20,13 @@ const CSS_HANDLES = [
   'submenuContainer',
 ] as const
 
-const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
+const HorizontalMenu: FC<InjectedIntlProps> = observer(() => {
   const { handles } = useCssHandles(CSS_HANDLES)
   const {
     isOpenMenu,
     departments,
     departmentActive,
-    config: { title, defaultDepartmentActive },
+    config: { defaultDepartmentActive },
     setDepartmentActive,
     openMenu,
   } = megaMenuState
@@ -90,7 +89,10 @@ const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
             <li
               className={classNames(
                 handles.menuItem,
-                d.id === departmentActive?.id && 'bg-black-05 vtex-active-menu'
+                'br b--muted-4',
+                d.id === departmentActive?.id && 'bg-black-05 vtex-active-menu',
+                d.id === departmentActive?.id && styles['active-menu'],
+                styles['menu-item']
               )}
               key={d.id}
               onMouseEnter={() => {
@@ -103,7 +105,7 @@ const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
                 iconId={d.icon}
                 accordion={hasCategories}
                 className={classNames(
-                  'pv3 mh5',
+                  'pv5 mh5',
                   d.id === departmentActive?.id && 'vtex-active-menu-link'
                 )}
                 style={d.styles}
@@ -138,19 +140,11 @@ const HorizontalMenu: FC<InjectedIntlProps> = observer(({ intl }) => {
     <nav
       className={classNames(
         handles.menuContainerNav,
-        'absolute left-0 bg-white bw1 bb b--muted-3 flex'
+        'absolute left-0 bg-white flex'
       )}
       ref={navRef}
     >
-      <ul
-        className={classNames(
-          styles.menuContainer,
-          'list ma0 pa0 pb3 br b--muted-4'
-        )}
-      >
-        <h3 className="f5 fw7 c-on-base lh-copy ma0 pv5 ph5 vtex-mege-menu-header">
-          {formatIOMessage({ id: title, intl })}
-        </h3>
+      <ul className={classNames(styles.menuContainer, 'list ma0 pa0 pb3 ')}>
         {departments.length ? (
           departmentItems
         ) : (

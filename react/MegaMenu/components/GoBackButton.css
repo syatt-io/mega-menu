@@ -1,0 +1,10 @@
+.go-back-button {
+  height: 53px;
+  padding: 0;
+  width: calc(100% - 12px);
+}
+
+.drawer-icon {
+  position: absolute;
+  left: 12px;
+}

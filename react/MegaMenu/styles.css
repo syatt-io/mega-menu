@@ -1,7 +1,12 @@
 .menuContainer,
 .submenuContainer {
-  overflow: auto;
-  max-height: 50vh;
+  max-height: calc(75vh - 100px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.menuContainerNav {
+  box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.13);
 }
 
 .menuContainer {
@@ -34,7 +39,11 @@
 }
 
 .seeAllLink {
-  color: var(--star-blue);
+  color: var(--star-blue-secondary);
+  font-family: 'Poppins';
+}
+
+.seeAllLink--mobile {
   font-family: 'Poppins';
 }
 
@@ -42,4 +51,45 @@
   stroke: white;
   stroke-width: 1px;
   margin-left: 8px;
+}
+
+.menu-item {
+  margin-right: 15px;
+}
+
+.menu-item__arrow {
+  font-size: 10px;
+  transform: scaleX(0.8);
+}
+
+.active-menu {
+  position: relative;
+}
+
+/* active menu triangle */
+.active-menu:after,
+.active-menu:before {
+  left: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: '';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.active-menu:after {
+  border-left-color: var(--star-blue);
+  border-width: 3px;
+  margin-top: -3px;
+}
+
+.item-link {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dce2e5;
+}
+
+.item-link a {
+  color: var(--star-blue-secondary);
 }
