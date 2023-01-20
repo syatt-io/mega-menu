@@ -1,8 +1,6 @@
 .menuContainer,
 .submenuContainer {
   max-height: calc(75vh - 100px);
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .menuContainerNav {
