@@ -3,6 +3,8 @@
 
 ## [Unreleased]
 
+## [3.4.0] - 2022-12-22
+- WITI-532 - changed link colors to primary blue
 ## [3.3.0] - 2022-12-22
 
 ## [3.2.0] - 2022-12-22
