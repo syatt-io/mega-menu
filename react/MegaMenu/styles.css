@@ -37,7 +37,7 @@
 }
 
 .seeAllLink {
-  color: var(--star-blue-secondary);
+  color: var(--star-blue);
   font-family: 'Poppins';
 }
 
@@ -89,5 +89,5 @@
 }
 
 .item-link a {
-  color: var(--star-blue-secondary);
+  color: var(--star-blue);
 }
